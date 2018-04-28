@@ -43,7 +43,7 @@
          # ... more deployment configurations can go here.
    ```
 
-2. Run `gitsetgo <deployment ...>`.
+2. Run `gitsetgo <deployment ...>` from the root of your project.
 
 ## Contributors
 

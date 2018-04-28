@@ -27,7 +27,7 @@ gitsetgo:
       # ... more deployment configurations can go here.
 ```
 </li>
-<li><p>Run <code>gitsetgo &lt;deployment ...&gt;</code>.</p>
+<li><p>Run <code>gitsetgo &lt;deployment ...&gt;</code> from the root of your project.</p>
 </li>
 </ol>
 <h2 id="contributors">Contributors</h2>
