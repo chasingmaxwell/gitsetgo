@@ -7,11 +7,12 @@ const deploy = require('./deploy');
 const log = require('./log');
 const config = require('config');
 const fs = require('fs-extra');
+const { version } = require('../package.json');
 
 const STAGING_DIR = '.gitsetgo';
 
 program
-  .version('1.0.0')
+  .version(version)
   .usage('<deploymentName ...>')
   .parse(process.argv);
 
