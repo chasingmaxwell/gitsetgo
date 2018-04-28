@@ -1,0 +1,6 @@
+.vscode
+lib
+node_modules
+
+# Ignore config so we can use it to test gitsetgo.
+config
