@@ -19,7 +19,10 @@ program
 
 async function gitsetgo() {
   try {
-    log('info', 'all-deployments', `Starting deployments for "${program.args.join('", "')}"`);
+    if (program.args.length > 1) {
+      log('info', 'all-deployments', `Starting deployments for "${program.args.join('", "')}"`);
+    }
+
     const deployments = config.get('gitsetgo.deployments');
     await Promise.all(
       program.args.map(async (name) => {
