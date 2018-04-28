@@ -6,7 +6,11 @@
 
 <h1 id="gitsetgo-travis-documented-with-emdaer">gitsetgo · <a href="https://travis-ci.org/chasingmaxwell/gitsetgo"><img src="https://img.shields.io/travis/chasingmaxwell/gitsetgo.svg?branch=master?style=plastic" alt="Travis"></a> <a href="https://github.com/emdaer/emdaer"><img src="https://img.shields.io/badge/📓-documented%20with%20emdaer-F06632.svg?style=flat-square" alt="Documented with emdaer"></a></h1>
 <p>Deploy all the repositories at once.</p>
-<h2 id="installation">Installation</h2>
+<h2 id="global-installation">Global Installation</h2>
+<p><code>yarn global add gitsetgo</code></p>
+<p> OR</p>
+<p><code>npm i -g --save gitsetgo</code></p>
+<h2 id="per-project-installation">Per-Project Installation</h2>
 <p><code>yarn add gitsetgo</code></p>
 <p> OR</p>
 <p><code>npm i --save gitsetgo</code></p>
@@ -27,7 +31,17 @@ gitsetgo:
       # ... more deployment configurations can go here.
 ```
 </li>
-<li><p>Run <code>gitsetgo &lt;deployment ...&gt;</code> from the root of your project.</p>
+<li><p>Run gitsetgo from the root of your project.</p>
+<p>If you installed globally:</p>
+
+```sh
+gitsetgo <deployment ...>
+```
+<p>If you installed per-project:</p>
+
+```sh
+npx gitsetgo <deployment ...>
+```
 </li>
 </ol>
 <h2 id="contributors">Contributors</h2>

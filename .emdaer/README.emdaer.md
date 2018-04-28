@@ -18,7 +18,15 @@
   - value: description
 -->
 
-## Installation
+## Global Installation
+
+`yarn global add gitsetgo`
+
+ OR
+
+`npm i -g --save gitsetgo`
+
+## Per-Project Installation
 
 `yarn add gitsetgo`
 
@@ -43,7 +51,19 @@
          # ... more deployment configurations can go here.
    ```
 
-2. Run `gitsetgo <deployment ...>` from the root of your project.
+2. Run gitsetgo from the root of your project.
+
+   If you installed globally:
+
+   ```sh
+   gitsetgo <deployment ...>
+   ```
+
+   If you installed per-project:
+
+   ```sh
+   npx gitsetgo <deployment ...>
+   ```
 
 ## Contributors
 
