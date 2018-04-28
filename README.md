@@ -22,7 +22,7 @@ gitsetgo:
         remote: git@github.com:chasingmaxwell/gitsetgo.git
         branch: sourceBranch
       destination: # Deploy to this configuration.
-        remote: git@github.com:chasingmaxwell/gitsetgo.get
+        remote: git@github.com:chasingmaxwell/gitsetgo.git
         branch: destinationBranch
       # ... more deployment configurations can go here.
 ```
