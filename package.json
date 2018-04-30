@@ -1,6 +1,6 @@
 {
   "name": "gitsetgo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Automate synchronized git deployments across multiple repositories.",
   "main": "lib/index.js",
   "license": "MIT",
