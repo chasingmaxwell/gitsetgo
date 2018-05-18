@@ -4,4 +4,4 @@ node_modules
 coverage
 
 # Ignore config so we can use it to test gitsetgo.
-config
+.gitsetgorc.*

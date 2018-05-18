@@ -5,7 +5,7 @@
 const program = require('commander');
 const deploy = require('./deploy');
 const log = require('./log');
-const config = require('config');
+const getConfig = require('./getConfig');
 const fs = require('fs-extra');
 const { version } = require('../package.json');
 
@@ -16,17 +16,23 @@ program
   .usage('<deploymentName ...>')
   .parse(process.argv);
 
-
 async function gitsetgo() {
   try {
+    const config = await getConfig();
+
     if (program.args.length > 1) {
-      log('info', 'all-deployments', `Starting deployments for "${program.args.join('", "')}"`);
+      log(
+        'info',
+        'all-deployments',
+        `Starting deployments for "${program.args.join('", "')}"`
+      );
     }
 
-    const deployments = config.get('gitsetgo.deployments');
     await Promise.all(
-      program.args.map(async (name) => {
-        const deployConfig = deployments.find(deployment => deployment.name === name);
+      program.args.map(async name => {
+        const deployConfig = config.deployments.find(
+          deployment => deployment.name === name
+        );
 
         if (!deployConfig) {
           throw new Error(`No configuration found for "${name}"`);
@@ -37,10 +43,13 @@ async function gitsetgo() {
     );
 
     if (program.args.length > 1) {
-      log('info', 'all-deployments', `Deployed all repositories for "${program.args.join('", "')}"`);
+      log(
+        'info',
+        'all-deployments',
+        `Deployed all repositories for "${program.args.join('", "')}"`
+      );
     }
-  }
-  catch (e) {
+  } catch (e) {
     log('error', 'all-deployments', e);
   }
 }
@@ -49,7 +58,7 @@ fs.mkdirSync(STAGING_DIR);
 
 gitsetgo()
   .then(() => fs.removeSync(STAGING_DIR))
-  .catch((e) => {
+  .catch(e => {
     log('error', 'all-deployments', e);
     fs.removeSync(STAGING_DIR);
   });

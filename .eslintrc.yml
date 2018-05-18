@@ -3,13 +3,12 @@ env:
   jest: true
 plugins:
   - flowtype
+  - prettier
 extends:
   - airbnb-base
   - plugin:flowtype/recommended
+  - plugin:prettier/recommended
 rules:
-  brace-style:
-    - 2
-    - stroustrup
   comma-dangle:
     - error
     -

@@ -1,6 +1,6 @@
 // @flow
 
-declare type LogLevel = "info" | "warn" | "error"
+declare type LogLevel = 'info' | 'warn' | 'error';
 
 const chalk = require('chalk');
 
@@ -16,28 +16,30 @@ const chalk = require('chalk');
  */
 function getContextColor(context: string): string {
   getContextColor.colorMap = getContextColor.colorMap || new Map();
-  getContextColor.colorGen = getContextColor.colorGen || (function* colorGen() {
-    let index = -1;
-    const colors = [
-      'green',
-      'cyan',
-      'magenta',
-      'yellow',
-      'blueBright',
-      'magentaBright',
-      'cyanBright',
-    ];
+  getContextColor.colorGen =
+    getContextColor.colorGen ||
+    (function* colorGen() {
+      let index = -1;
+      const colors = [
+        'green',
+        'cyan',
+        'magenta',
+        'yellow',
+        'blueBright',
+        'magentaBright',
+        'cyanBright',
+      ];
 
-    while (true) {
-      yield colors[(index += 1) % colors.length];
-    }
-  }());
+      while (true) {
+        yield colors[(index += 1) % colors.length];
+      }
+    })();
 
   return getContextColor.colorMap.has(context)
     ? getContextColor.colorMap.get(context)
     : getContextColor.colorMap
-      .set(context, getContextColor.colorGen.next().value)
-      .get(context);
+        .set(context, getContextColor.colorGen.next().value)
+        .get(context);
 }
 
 const levelColorMap = new Map([
@@ -54,7 +56,8 @@ const levelColorMap = new Map([
  * @param {any} args Any additional arguments to pass to the console method.
  */
 module.exports = (level: LogLevel, context: string, ...args: mixed): void => {
-  console[level]( // eslint-disable-line no-console
+  // eslint-disable-next-line no-console
+  console[level](
     chalk[levelColorMap.get(level)].bold('gitsetgo:'),
     chalk[getContextColor(context)](`${context}:`),
     ...args

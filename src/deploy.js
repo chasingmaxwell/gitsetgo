@@ -23,7 +23,7 @@ module.exports = async (
   fs.mkdirSync(deployDir);
 
   await Promise.all(
-    Object.keys(config.repositories).map(async (name) => {
+    Object.keys(config.repositories).map(async name => {
       const repository = config.repositories[name];
 
       log('info', config.name, `Cloning "${name}"...`);
