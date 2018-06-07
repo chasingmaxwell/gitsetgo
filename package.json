@@ -8,7 +8,7 @@
     "gitsetgo": "./lib/cli.js"
   },
   "scripts": {
-    "test": "yarn build && jest --coverage",
+    "test": "yarn build && jest ./lib --coverage",
     "lint": "eslint --ignore-path .gitignore .",
     "emdaer": "yarn build && emdaer && git add *.md",
     "precommit": "yarn prettier && yarn emdaer",
@@ -52,6 +52,9 @@
     "husky": "^0.14.3",
     "jest": "^22.4.3",
     "semantic-release": "^8.0.0"
+  },
+  "jest": {
+    "collectCoverageFrom": ["lib/**/*.js", "lib/*.js"]
   },
   "directories": {
     "lib": "lib"
