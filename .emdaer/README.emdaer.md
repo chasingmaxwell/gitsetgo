@@ -24,7 +24,7 @@ Let's say you have an ecosystem of applications and services, each with its own 
 
 ## How?
 
-gitsetgo uses the [config](https://www.npmjs.com/package/config) module to determine deployment configuration. In your project's configuration you can define any number of "deployments" each with its own set of repositories. Each repository defines its source and destination remotes and branches. When gitsetgo is invoked with a valid deployment (example: `gitsetgo stage-to-prod`), it will iterate over each repository, cloning from the source remote at the specified branch and force-pushing to the destination remote at the specified branch.
+You can define any number of "deployments" in configuration each with its own set of repositories. Each repository defines its source and destination remotes and branches. When gitsetgo is invoked with a valid deployment (example: `gitsetgo stage-to-prod`), it will iterate over each repository, cloning from the source remote at the specified branch and force-pushing to the destination remote at the specified branch.
 
 ## Installation
 
@@ -54,14 +54,16 @@ gitsetgo uses the [config](https://www.npmjs.com/package/config) module to deter
      deployments:
        - name: deployment-name # This is the name you'll enter on the cli.
         repositories:
-         someRepository:
+         -
+           name: someRepository
            source: # Deploy from this configuration.
              remote: git@github.com:chasingmaxwell/example.git
              branch: sourceBranch
            destination: # Deploy to this configuration.
              remote: git@github.com:chasingmaxwell/example.git
              branch: destinationBranch
-         someOtherRepository:
+         -
+           name: someOtherRepository
            source: # Deploy from this configuration.
              remote: git@github.com:chasingmaxwell/anotherExample.git
              branch: sourceBranch

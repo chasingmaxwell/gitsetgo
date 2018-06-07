@@ -9,7 +9,7 @@
 <h2 id="why-">Why?</h2>
 <p>Let’s say you have an ecosystem of applications and services, each with its own git repository. Let’s also say you use a CI service like <a href="https://travis-ci.org/">Travis</a> to manage the deployment for each application upon a push to an environment git branch. Manually pushing all the repositories to the appropriate environment remote/branch from the appropriate source remote/branch could be time consuming and error prone. With gitsetgo you use configuration to define repeatable deployment procedures which you can invoke with a single command. You could, for instance, deploy all of your repositories from their QA environment to a staging environment, or to a separate environment for load testing, or perform both procedures at the same time!</p>
 <h2 id="how-">How?</h2>
-<p>gitsetgo uses the <a href="https://www.npmjs.com/package/config">config</a> module to determine deployment configuration. In your project’s configuration you can define any number of “deployments” each with its own set of repositories. Each repository defines its source and destination remotes and branches. When gitsetgo is invoked with a valid deployment (example: <code>gitsetgo stage-to-prod</code>), it will iterate over each repository, cloning from the source remote at the specified branch and force-pushing to the destination remote at the specified branch.</p>
+<p>You can define any number of “deployments” in configuration each with its own set of repositories. Each repository defines its source and destination remotes and branches. When gitsetgo is invoked with a valid deployment (example: <code>gitsetgo stage-to-prod</code>), it will iterate over each repository, cloning from the source remote at the specified branch and force-pushing to the destination remote at the specified branch.</p>
 <h2 id="installation">Installation</h2>
 <h3 id="global">Global</h3>
 <p><code>yarn global add gitsetgo</code></p>
@@ -29,14 +29,16 @@
  deployments:
    - name: deployment-name # This is the name you'll enter on the cli.
     repositories:
-     someRepository:
+     -
+       name: someRepository
        source: # Deploy from this configuration.
          remote: git@github.com:chasingmaxwell/example.git
          branch: sourceBranch
        destination: # Deploy to this configuration.
          remote: git@github.com:chasingmaxwell/example.git
          branch: destinationBranch
-     someOtherRepository:
+     -
+       name: someOtherRepository
        source: # Deploy from this configuration.
          remote: git@github.com:chasingmaxwell/anotherExample.git
          branch: sourceBranch

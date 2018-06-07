@@ -23,21 +23,11 @@ module.exports = async (
   fs.mkdirSync(deployDir);
 
   await Promise.all(
-    Object.keys(config.repositories).map(async name => {
-      const repository = config.repositories[name];
-
+    config.repositories.map(async ({ name, source, destination }) => {
       log('info', config.name, `Cloning "${name}"...`);
       await spawn(
         'git',
-        [
-          'clone',
-          repository.source.remote,
-          name,
-          '--depth',
-          '1',
-          '-b',
-          repository.source.branch,
-        ],
+        ['clone', source.remote, name, '--depth', '1', '-b', source.branch],
         { cwd: `${deployDir}` }
       );
 
@@ -49,7 +39,7 @@ module.exports = async (
         [
           'push',
           'origin',
-          `${repository.source.branch}:${repository.destination.branch}`,
+          `${source.branch}:${destination.branch}`,
           // @TODO: make force push optional.
           '-f',
         ],
