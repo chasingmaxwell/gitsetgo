@@ -2,10 +2,10 @@
   "name": "gitsetgo",
   "version": "1.0.4",
   "description": "Automate synchronized git deployments across multiple repositories.",
-  "main": "lib/index.js",
+  "main": "lib/cli.js",
   "license": "MIT",
   "bin": {
-    "gitsetgo": "./lib/index.js"
+    "gitsetgo": "./lib/cli.js"
   },
   "scripts": {
     "test": "yarn build && jest --coverage",
@@ -18,8 +18,8 @@
     "prettier": "prettier --write './**/*.js' && yarn lint --fix",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "flow": "flow",
-    "build": "flow-remove-types src/ --out-dir lib/ && flow-copy-source src lib",
-    "gitsetgo": "./lib/index.js"
+    "build": "rm -rf lib && flow-remove-types src/ --out-dir lib/ && flow-copy-source src lib",
+    "gitsetgo": "./lib/cli.js"
   },
   "dependencies": {
     "@emdaer/plugin-contributors-details-github": "^2.0.3",

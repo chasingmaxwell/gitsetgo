@@ -1,35 +1,28 @@
-#!/usr/bin/env node
-
 // @flow
 
-const program = require('commander');
 const deploy = require('./deploy');
 const log = require('./log');
 const getConfig = require('./getConfig');
-const fs = require('fs-extra');
-const { version } = require('../package.json');
+const { mkdir, remove } = require('fs-extra');
 
 const STAGING_DIR = '.gitsetgo';
 
-program
-  .version(version)
-  .usage('<deploymentName ...>')
-  .parse(process.argv);
-
-async function gitsetgo() {
+module.exports = async (deployments: String[] = []) => {
   try {
+    await mkdir(STAGING_DIR);
+
     const config = await getConfig();
 
-    if (program.args.length > 1) {
+    if (deployments.length > 1) {
       log(
         'info',
         'all-deployments',
-        `Starting deployments for "${program.args.join('", "')}"`
+        `Starting deployments for "${deployments.join('", "')}"`
       );
     }
 
     await Promise.all(
-      program.args.map(async name => {
+      deployments.map(async name => {
         const deployConfig = config.deployments.find(
           deployment => deployment.name === name
         );
@@ -42,23 +35,18 @@ async function gitsetgo() {
       })
     );
 
-    if (program.args.length > 1) {
+    if (deployments.length > 1) {
       log(
         'info',
         'all-deployments',
-        `Deployed all repositories for "${program.args.join('", "')}"`
+        `Deployed all repositories for "${deployments.join('", "')}"`
       );
     }
+
+    await remove(STAGING_DIR);
   } catch (e) {
     log('error', 'all-deployments', e);
+    await remove(STAGING_DIR);
+    throw e;
   }
-}
-
-fs.mkdirSync(STAGING_DIR);
-
-gitsetgo()
-  .then(() => fs.removeSync(STAGING_DIR))
-  .catch(e => {
-    log('error', 'all-deployments', e);
-    fs.removeSync(STAGING_DIR);
-  });
+};
