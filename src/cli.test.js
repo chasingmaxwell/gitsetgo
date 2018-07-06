@@ -34,8 +34,9 @@ describe('program', () => {
     gitsetgoNew.mockImplementation(async () => {
       throw error;
     });
-    jest.spyOn(process, 'exit').mockImplementation(() => {});
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
     await require('./cli.js'); // eslint-disable-line global-require
-    expect(process.exit).toHaveBeenCalledWith(1);
+    expect(mockExit).toHaveBeenCalledWith(1);
+    mockExit.mockRestore();
   });
 });

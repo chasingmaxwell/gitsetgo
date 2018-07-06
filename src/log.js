@@ -1,6 +1,15 @@
-// @flow
+/* @flow */
 
 declare type LogLevel = 'info' | 'warn' | 'error';
+declare type LevelColor = 'greenBright' | 'yellowBright' | 'redBright';
+declare type ContextColor =
+  | 'blueBright'
+  | 'cyan'
+  | 'cyanBright'
+  | 'green'
+  | 'magenta'
+  | 'magentaBright'
+  | 'yellow';
 
 const chalk = require('chalk');
 
@@ -14,7 +23,7 @@ const chalk = require('chalk');
  *
  * @return {string} The chalk color to pair with the given context.
  */
-function getContextColor(context: string): string {
+function getContextColor(context: string): ContextColor {
   getContextColor.colorMap = getContextColor.colorMap || new Map();
   getContextColor.colorGen =
     getContextColor.colorGen ||
@@ -42,7 +51,7 @@ function getContextColor(context: string): string {
         .get(context);
 }
 
-const levelColorMap = new Map([
+const levelColorMap: Map<LogLevel, LevelColor> = new Map([
   ['info', 'greenBright'],
   ['warn', 'yellowBright'],
   ['error', 'redBright'],
@@ -55,10 +64,17 @@ const levelColorMap = new Map([
  * @param {string} context The context against which to log.
  * @param {any} args Any additional arguments to pass to the console method.
  */
-module.exports = (level: LogLevel, context: string, ...args: mixed): void => {
+module.exports = (
+  level: LogLevel,
+  context: string,
+  ...args: Array<mixed>
+): void => {
   // eslint-disable-next-line no-console
   console[level](
+    // The chalk type definitions do not handle dynamic property references very
+    // well. $FlowFixMe
     chalk[levelColorMap.get(level)].bold('gitsetgo:'),
+    // See above. $FlowFixMe
     chalk[getContextColor(context)](`${context}:`),
     ...args
   );

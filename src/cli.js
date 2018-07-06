@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// @flow
+/* @flow */
 
 const program = require('commander');
 const { version } = require('../package.json');

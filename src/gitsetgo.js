@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 
 const deploy = require('./deploy');
 const log = require('./log');
@@ -7,7 +7,7 @@ const { mkdir, remove } = require('fs-extra');
 
 const STAGING_DIR = '.gitsetgo';
 
-module.exports = async (deployments: String[] = []) => {
+module.exports = async (deployments: Array<string> = []) => {
   try {
     await mkdir(STAGING_DIR);
 

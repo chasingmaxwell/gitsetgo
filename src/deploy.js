@@ -1,23 +1,31 @@
-// @flow
+/* @flow */
 
 const fs = require('fs-extra');
 const { spawn } = require('child-process-promise');
 const log = require('./log');
 
-declare type GitsetgoDeploymentConfig = {
-  repositories: {
-    [string]: {
-      source: string,
-      destination: string,
-      remote: string,
-    },
+declare type GitsetgoRepositoryConfig = {
+  name: string,
+  source: {
+    remote: string,
+    branch: string,
   },
+  destination: {
+    remote: string,
+    branch: string,
+  },
+  remote: string,
+};
+
+declare type GitsetgoDeploymentConfig = {
+  name: string,
+  repositories: Array<GitsetgoRepositoryConfig>,
 };
 
 module.exports = async (
   config: GitsetgoDeploymentConfig,
   baseDir: string
-): void => {
+): Promise<void> => {
   const deployDir = `${baseDir}/${config.name}`;
 
   fs.mkdirSync(deployDir);
