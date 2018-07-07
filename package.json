@@ -15,6 +15,7 @@
     "prepush": "yarn lint-staged && yarn type && yarn test",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "prepare": "yarn build",
+    "ci": "yarn lint && yarn type && yarn test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "type": "flow status",
     "build": "babel src -d lib --delete-dir-on-start",
