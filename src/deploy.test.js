@@ -1,8 +1,8 @@
-jest.mock('fs');
+jest.mock('fs-extra');
 jest.mock('./log');
 jest.mock('child-process-promise');
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const log = require('./log');
 const { spawn } = require('child-process-promise');
 const deploy = require('./deploy');
