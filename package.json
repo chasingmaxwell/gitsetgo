@@ -5,7 +5,7 @@
   "main": "lib/cli.js",
   "license": "MIT",
   "bin": {
-    "gitsetgo": "./lib/cli.js"
+    "gitsetgo": "./lib/index.js"
   },
   "scripts": {
     "test": "jest ./src --coverage",
@@ -19,7 +19,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "type": "flow status",
     "build": "babel src -d lib --delete-dir-on-start",
-    "gitsetgo": "yarn build && ./lib/cli.js"
+    "gitsetgo": "yarn build && ./lib/index.js"
   },
   "dependencies": {
     "@emdaer/plugin-contributors-details-github": "^2.0.3",

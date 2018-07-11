@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /* @flow */
 
 const program = require('commander');
@@ -11,10 +9,14 @@ program
   .usage('<deploymentName ...>')
   .parse(process.argv);
 
-(async () => {
+/**
+ * Runs gitsetgo with input arguments returning the appropriate exit code.
+ */
+module.exports = async () => {
   try {
     await gitsetgo(program.args);
+    return 0;
   } catch (e) {
-    process.exit(1);
+    return 1;
   }
-})();
+};
