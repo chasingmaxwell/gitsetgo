@@ -1,24 +1,24 @@
 {
   "name": "gitsetgo",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Automate synchronized git deployments across multiple repositories.",
-  "main": "lib/index.js",
+  "main": "lib/cli.js",
   "license": "MIT",
   "bin": {
     "gitsetgo": "./lib/index.js"
   },
   "scripts": {
-    "test": "yarn build && jest --coverage",
-    "lint": "eslint --ignore-path .gitignore .",
+    "test": "jest ./src --coverage",
+    "lint": "eslint --ignore-path .gitignore . --quiet",
     "emdaer": "yarn build && emdaer && git add *.md",
-    "precommit": "yarn lint && yarn emdaer",
-    "prepush": "yarn test",
+    "precommit": "yarn lint-staged && yarn type",
+    "prepush": "yarn lint-staged && yarn type && yarn test",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "prepare": "yarn build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "flow": "flow",
-    "build": "flow-remove-types src/ --out-dir lib/ && flow-copy-source src lib",
-    "gitsetgo": "./lib/index.js"
+    "ci": "yarn lint && yarn type && yarn test",
+    "type": "flow status",
+    "build": "babel src -d lib --delete-dir-on-start",
+    "gitsetgo": "yarn build && ./lib/index.js"
   },
   "dependencies": {
     "@emdaer/plugin-contributors-details-github": "^2.0.3",
@@ -28,26 +28,36 @@
     "chalk": "^2.3.2",
     "child-process-promise": "^2.2.1",
     "commander": "^2.15.1",
-    "config": "^1.30.0",
+    "cosmiconfig": "^4.0.0",
     "fs-extra": "^5.0.0",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "prettier": "^1.12.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.1.3",
-    "@commitlint/config-conventional": "^6.1.3",
+    "@babel/cli": "^7.0.0-beta.52",
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/node": "^7.0.0-beta.52",
+    "@babel/preset-env": "^7.0.0-beta.52",
+    "@babel/preset-flow": "^7.0.0-beta.52",
+    "@commitlint/config-angular": "^4.3.0",
     "@emdaer/cli": "^2.0.3",
     "@emdaer/plugin-value-from-package": "^2.0.3",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^8.2.3",
+    "babel-jest": "^23.2.0",
+    "commitlint": "^5.0.1",
     "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-flowtype": "^2.46.2",
-    "eslint-plugin-import": "^2.11.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-problems": "^0.1.1",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-better": "^0.1.5",
+    "eslint-plugin-flowtype": "^2.46.3",
+    "eslint-plugin-jest": "^21.15.1",
+    "eslint-plugin-prettier": "^2.6.2",
     "flow-bin": "^0.70.0",
-    "flow-copy-source": "^1.3.0",
-    "flow-remove-types": "^1.2.3",
     "husky": "^0.14.3",
-    "jest": "^22.4.3",
-    "semantic-release": "^8.0.0"
+    "jest": "^23.1.3",
+    "lint-staged": "^7.2.0"
   },
   "directories": {
     "lib": "lib"

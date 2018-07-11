@@ -9,7 +9,7 @@
 <h2 id="why-">Why?</h2>
 <p>Let’s say you have an ecosystem of applications and services, each with its own git repository. Let’s also say you use a CI service like <a href="https://travis-ci.org/">Travis</a> to manage the deployment for each application upon a push to an environment git branch. Manually pushing all the repositories to the appropriate environment remote/branch from the appropriate source remote/branch could be time consuming and error prone. With gitsetgo you use configuration to define repeatable deployment procedures which you can invoke with a single command. You could, for instance, deploy all of your repositories from their QA environment to a staging environment, or to a separate environment for load testing, or perform both procedures at the same time!</p>
 <h2 id="how-">How?</h2>
-<p>gitsetgo uses the <a href="https://www.npmjs.com/package/config">config</a> module to determine deployment configuration. In your project’s configuration you can define any number of “deployments” each with its own set of repositories. Each repository defines its source and destination remotes and branches. When gitsetgo is invoked with a valid deployment (example: <code>gitsetgo stage-to-prod</code>), it will iterate over each repository, cloning from the source remote at the specified branch and force-pushing to the destination remote at the specified branch.</p>
+<p>You can define any number of “deployments” in configuration each with its own set of repositories. Each repository defines its source and destination remotes and branches. When gitsetgo is invoked with a valid deployment (example: <code>gitsetgo stage-to-prod</code>), it will iterate over each repository, cloning from the source remote at the specified branch and force-pushing to the destination remote at the specified branch.</p>
 <h2 id="installation">Installation</h2>
 <h3 id="global">Global</h3>
 <p><code>yarn global add gitsetgo</code></p>
@@ -21,33 +21,35 @@
 <p><code>npm i --save gitsetgo</code></p>
 <h2 id="usage">Usage</h2>
 <ol>
-<li><p>Configure deployments. Make sure you have a <code>./config</code> directory at the root of your project which contains a <code>default.yml</code> file that looks something like this:</p>
+<li><p><strong>GIT</strong>: Ensure you have <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git installed</a> and that you have access to the remotes to which you would like to deploy. Gitsetgo uses the git executable under the hood to perform deployments, so if you can’t clone/push from the command line, neither can gitsetgo.</p>
+</li>
+<li><p><strong>SET</strong>: Configure deployments. Create a <code>.gitsetgorc.yml</code> file at the root of your project that looks something like this:</p>
 
 ```yaml
-gitsetgo:
-  deployments:
-    - name: deployment-name # This is the name you'll enter on the cli.
-      someRepository:
-        source: # Deploy from this configuration.
-          remote: git@github.com:chasingmaxwell/example.git
-          branch: sourceBranch
-        destination: # Deploy to this configuration.
-          remote: git@github.com:chasingmaxwell/example.git
-          branch: destinationBranch
-      someOtherRepository:
-        source: # Deploy from this configuration.
-          remote: git@github.com:chasingmaxwell/anotherExample.git
-          branch: sourceBranch
-        destination: # Deploy to this configuration.
-          remote: git@github.com:chasingmaxwell/anotherExample.git
-          branch: destinationBranch
-      # ... more repositories can go here.
-    # ... more deployment configurations can go here.
+ deployments:
+   - name: deployment-name # This is the name you'll enter on the cli.
+    repositories:
+     -
+       name: someRepository
+       source: # Deploy from this configuration.
+         remote: git@github.com:chasingmaxwell/example.git
+         branch: sourceBranch
+       destination: # Deploy to this configuration.
+         remote: git@github.com:chasingmaxwell/example.git
+         branch: destinationBranch
+     -
+       name: someOtherRepository
+       source: # Deploy from this configuration.
+         remote: git@github.com:chasingmaxwell/anotherExample.git
+         branch: sourceBranch
+       destination: # Deploy to this configuration.
+         remote: git@github.com:chasingmaxwell/anotherExample.git
+         branch: destinationBranch
+     # ... more repositories can go here.
+   # ... more deployment configurations can go here.
 ```
 </li>
-<li><p>Ensure you have access to the remotes in your configuration from the environment in which you run the command. gitsetgo just spawns git commands under the hood so if you can’t clone/push from the command line, neither can gitsetgo.</p>
-</li>
-<li><p>Run gitsetgo from the root of your project.</p>
+<li><p><strong>GO</strong>: Run gitsetgo from the root of your project.</p>
 <p>If you installed globally:</p>
 
 ```sh

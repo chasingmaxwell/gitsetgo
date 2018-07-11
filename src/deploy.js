@@ -1,43 +1,41 @@
-// @flow
+/* @flow */
 
 const fs = require('fs-extra');
 const { spawn } = require('child-process-promise');
 const log = require('./log');
 
-declare type GitsetgoDeploymentConfig = {
-  repositories: {
-    [string]: {
-      source: string,
-      destination: string,
-      remote: string,
-    },
+declare type GitsetgoRepositoryConfig = {
+  name: string,
+  source: {
+    remote: string,
+    branch: string,
   },
+  destination: {
+    remote: string,
+    branch: string,
+  },
+  remote: string,
+};
+
+declare type GitsetgoDeploymentConfig = {
+  name: string,
+  repositories: Array<GitsetgoRepositoryConfig>,
 };
 
 module.exports = async (
   config: GitsetgoDeploymentConfig,
   baseDir: string
-): void => {
+): Promise<void> => {
   const deployDir = `${baseDir}/${config.name}`;
 
   fs.mkdirSync(deployDir);
 
   await Promise.all(
-    Object.keys(config.repositories).map(async (name) => {
-      const repository = config.repositories[name];
-
+    config.repositories.map(async ({ name, source, destination }) => {
       log('info', config.name, `Cloning "${name}"...`);
       await spawn(
         'git',
-        [
-          'clone',
-          repository.source.remote,
-          name,
-          '--depth',
-          '1',
-          '-b',
-          repository.source.branch,
-        ],
+        ['clone', source.remote, name, '--depth', '1', '-b', source.branch],
         { cwd: `${deployDir}` }
       );
 
@@ -49,7 +47,7 @@ module.exports = async (
         [
           'push',
           'origin',
-          `${repository.source.branch}:${repository.destination.branch}`,
+          `${source.branch}:${destination.branch}`,
           // @TODO: make force push optional.
           '-f',
         ],
