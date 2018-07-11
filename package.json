@@ -1,6 +1,6 @@
 {
   "name": "gitsetgo",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Automate synchronized git deployments across multiple repositories.",
   "main": "lib/cli.js",
   "license": "MIT",
